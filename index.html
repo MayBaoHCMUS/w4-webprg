@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22120364</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-200 p-10">
+    <div class="max-w-lg bg-white mx-auto rounded-lg p-10 shadow-lg border ">
+        <h1 class="text-3xl text-center font-bold mb-4">Bé tập tính</h1>
+
+        <div>
+            <h2 class="font-bold mb-2">Số thứ nhất:</h2>
+            <input id="firstNumber" type="number" placeholder="Nhập số thứ nhất"
+                class="w-full border rounded-md p-2 mb-2">
+        </div>
+
+        <div>
+            <h2 class="font-bold mb-2">Số thứ hai:</h2>
+            <input id="secondNumber" type="number" placeholder="Nhập số thứ hai"
+                class="w-full border rounded-md p-2 mb-2">
+        </div>
+
+        <div>
+            <h2 class="font-bold mb-2">Chọn phép toán:</h2>
+            <div class="flex grid grid-cols-2">
+                <div class="flex items-center mb-1">
+                    <input id="add" type="radio" name="operation" value="add" class="mr-2">
+                    <label for="add">Cộng</label>
+                </div>
+
+                <div class="flex items-center mb-1">
+                    <input id="sub" type="radio" name="operation" value="sub" class="mr-2">
+                    <label for="sub">Trừ</label>
+                </div>
+
+                <div class="flex items-center mb-2">
+                    <input id="mul" type="radio" name="operation" value="mul" class="mr-2">
+                    <label for="mul">Nhân</label>
+                </div>
+
+                <div class="flex items-center mb-2">
+                    <input id="div" type="radio" name="operation" value="div" class="mr-2">
+                    <label for="div">Chia</label>
+                </div>
+            </div>
+
+            <div class="text-center mb-2">
+                <button id="cal" class="bg-blue-500 w-full rounded-md p-2 text-white">Tính</button>
+            </div>
+
+            <div>
+                <div>
+                    <h2 class="font-bold mb-2">Kết quả:</h2>
+                    <input id="res" type="number" class="w-full border rounded-md p-2">
+                </div>
+            </div>
+
+            <div class="flex mt-4 justify-center">
+                <div id="notif" class="text-red-500 italic"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showMsg(msg) {
+            const notifArea = document.getElementById('notif');
+            notifArea.innerText = msg;
+            notifArea.classList.remove('hidden');
+            document.getElementById('res').value = '';
+        }
+        function hiddenMsg() {
+            const notifArea = document.getElementById('notif');
+            notifArea.classList.add('hidden');
+            notifArea.innerText = '';
+
+        }
+
+        function isValidNum(num) {
+            return (num !== '' && !isNaN(num));
+        }
+
+        document.getElementById('firstNumber').addEventListener('blur', function () {
+            const num1 = document.getElementById('firstNumber').value;
+            if (!isValidNum(num1)) {
+                showMsg('Số thứ nhất không hợp lệ !');
+            }
+            else hiddenMsg();
+        });
+
+
+        document.getElementById('secondNumber').addEventListener('blur', function () {
+            const num2 = document.getElementById('secondNumber').value;
+            if (!isValidNum(num2)) {
+                showMsg('Số thứ hai không hợp lệ !');
+            }
+            else hiddenMsg();
+        });
+
+
+        document.getElementById('cal').addEventListener('click', function () {
+            const num1 = parseFloat(document.getElementById('firstNumber').value);
+            const num2 = parseFloat(document.getElementById('secondNumber').value);
+
+            if (!isValidNum(num1)) {
+                showMsg('Số thứ nhất không hợp lệ !');
+                return;
+            }
+
+            if (!isValidNum(num2)) {
+                showMsg('Số thứ hai không hợp lệ !');
+                return;
+            }
+
+            let result;
+
+            const operation = document.querySelector('input[name="operation"]:checked');
+
+            if (!operation) {
+                showMsg('Chưa chọn phép toán !');
+                return;
+            }
+            if (operation.value === 'add') {
+                result = num1 + num2;
+            }
+            else if (operation.value === 'sub') {
+                result = num1 - num2;
+            }
+            else if (operation.value === 'mul') {
+                result = num1 * num2;
+            }
+            else if (operation.value === 'div') {
+                if (num2 === 0) {
+                    showMsg('Không thể chia cho 0 !');
+                    return;
+                }
+                result = num1 / num2;
+            }
+
+            document.getElementById('res').value = result;
+        });
+    </script>
+</body>
+
+</html>
